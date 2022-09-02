@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { } from "react-bootstrap";
-
+import React from "react";
 
 const Card = ({ card, handleChoice, flipped, disabled }) => {
 

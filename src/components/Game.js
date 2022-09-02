@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Container, Form, Button, Col, Row } from "react-bootstrap";
+import { Container, Button, Col, Row } from "react-bootstrap";
 import { auth } from "../firebase-config";
 import Card from './Card';
 import Score from "./Score";
 import { useNavigate } from "react-router-dom";
-import { getFirestore, doc, setDoc, getDocs, collection, addDoc } from 'firebase/firestore/lite';
+import { getFirestore, doc, setDoc, getDocs, collection } from 'firebase/firestore/lite';
 import { app } from '../firebase-config';
 
 const cardImages = [
