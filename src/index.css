@@ -67,3 +67,10 @@ img {
 button {
  padding: 5px;
 }
+
+.error {
+  background-color: whitesmoke;
+  padding: 3px;
+  border-radius: 5px;
+  text-align: center;
+}

@@ -7,8 +7,8 @@ import { auth } from '../firebase-config';
 const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    //const [passwordConfirm, setPasswordConfirm] = useState("");
     const navigate = useNavigate()
+    const [error, setError] = useState(null)
 
     const register = async (e) => {
         e.preventDefault()
@@ -17,7 +17,8 @@ const SignUp = () => {
             console.log(user);
             navigate('/');
         } catch (err) {
-            console.log(err.message);
+            console.log(err);
+            setError(err.code)
         }
     }
 
@@ -27,6 +28,7 @@ const SignUp = () => {
                 <Card>
                     <Card.Body>
                         <h2 className="text-center mb-4">Sign Up</h2>
+                        {error && <div className="error">{error}</div>}
                         <Form onSubmit={register}>
                             <Form.Group>
                                 <Form.Label>Username</Form.Label>
@@ -36,10 +38,6 @@ const SignUp = () => {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                             </Form.Group>
-                            {/* <Form.Group>
-                                <Form.Label>Password Confirmation</Form.Label>
-                                <Form.Control type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required />
-                            </Form.Group> */}
                             <Button className="w-100 mt-3" type="submit">Sign Up</Button>
                         </Form>
                     </Card.Body>

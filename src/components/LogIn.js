@@ -8,15 +8,27 @@ const LogIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [error, setError] = useState(null)
 
     const login = async (e) => {
         e.preventDefault()
+        
         try {
             const user = await signInWithEmailAndPassword(auth, email, password);
             console.log(user);
             navigate('/game')
         } catch (err) {
             console.log(err.message);
+            if (err.code === "auth/wrong-password") {
+                setError("Wrong password")
+            } 
+            else if (err.code === "auth/user-not-found") {
+                setError("User not found")
+            }
+            else {
+                setError(err.code)
+            }
+            
         }
     }
 
@@ -26,6 +38,7 @@ const LogIn = () => {
                 <Card>
                     <Card.Body>
                         <h2 className="text-center mb-4">Log In</h2>
+                        {error && <div className="error">{error}</div>}
                         <Form onSubmit={login}>
                             <Form.Group>
                                 <Form.Label>Username</Form.Label>

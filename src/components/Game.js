@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Form, Button, Col, Row } from "react-bootstrap";
 import { auth } from "../firebase-config";
 import Card from './Card';
-import MyVerticallyCenteredModal from "./Score";
+import Score from "./Score";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc, getDocs, collection, addDoc } from 'firebase/firestore/lite';
 import { app } from '../firebase-config';
@@ -20,7 +20,7 @@ const Game = () => {
     const [db, setDb] = useState(getFirestore(app))
     const [cards, setCards] = useState([])
     const [turns, setTurns] = useState(0)
-    const [bestSc, setBestSc] = useState(99999)
+    const [bestSc, setBestSc] = useState(0)
     const [choiceOne, setChoiceOne] = useState(null)
     const [choiceTwo, setChoiceTwo] = useState(null)
     const [disabled, setDisabled] = useState(false)
@@ -56,9 +56,9 @@ const Game = () => {
     const getScore = async () => {
         const querySnapshot = await getDocs(collection(db, "players"));
             querySnapshot.forEach((doc) => {
-                if (doc.id === user.uid && doc.data().bestScore < bestSc) {
+                if (doc.id === user.uid) {
                     setBestSc(doc.data().bestScore)
-                }
+                } 
             });
     }
 
@@ -82,7 +82,7 @@ const Game = () => {
             }
         }
         if (foundPairs === 6) {
-            if (bestSc > turns) {
+            if (bestSc > turns || bestSc === 0) {
                 setBestSc(turns)
                 setDoc(doc(db, "players", user.uid), {bestScore:turns});
             }
@@ -106,7 +106,7 @@ const Game = () => {
                     <p><b>Best score:</b> {bestSc}</p>
                     <p><b>Turns:</b> {turns}</p>
                     <Button onClick={()=>{shuffleCards(); getScore()}} style={{ marginBottom: '5px' }}>New Game</Button>
-                    <Button onClick={() => { auth.signOut(); navigate('/login') }} >Sing Out</Button>
+                    <Button onClick={() => { auth.signOut(); navigate('/') }} >Sing Out</Button>
                 </Col>
             </Row>
             <Row className='d-flex align-items-center justify-content-center'>
@@ -124,7 +124,7 @@ const Game = () => {
                     </div>
 
                 </Col>
-                <MyVerticallyCenteredModal
+                <Score
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     turns={turns}
