@@ -28,7 +28,6 @@ const LogIn = () => {
             else {
                 setError(err.code)
             }
-            
         }
     }
 
